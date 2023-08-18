@@ -31,7 +31,7 @@ export async function POST(req, res) {
         }
 
         // Store the product in Redis
-        await db.sadd(`pdt:${productId}:${category}`, JSON.stringify(product));
+        await db.set(`pdt:${productId}:${category}`, JSON.stringify(product));
         return NextResponse.json({ message: "Product added successfully", product }, { status: 200 });
 
     } catch (error) {

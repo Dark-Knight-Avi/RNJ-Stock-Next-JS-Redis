@@ -1,5 +1,4 @@
 import { getAllCategoryKeys } from "@/app/helper/getAllCategoryKeys";
-import { getAllProductKeys } from "@/app/helper/getAllProductKeys";
 import { db } from "@/app/lib/db";
 import { NextResponse } from 'next/server';
 
