@@ -24,17 +24,22 @@ const ProductTable = ({ products }) => {
           <div className="p-2 text-center w-1/2">Size</div>
           <div className="p-2 text-center border-l-2 w-1/2">Quantity</div>
         </div>
-        {products.map((product) => (
-          <div
-            key={product.productId}
-            className="border-t-2 w-full flex justify-around items-center"
-          >
-            <div className="p-2 text-center w-1/2">{product.size}</div>
-            <div className="p-2 text-center border-l-2 w-1/2">
-              {product.quantity}
+        {products
+          .sort(
+            (a, b) =>
+              Number(a.size.split(" ")[0]) - Number(b.size.split(" ")[0])
+          )
+          .map((product) => (
+            <div
+              key={product.productId}
+              className="border-t-2 w-full flex justify-around items-center"
+            >
+              <div className="p-2 text-center w-1/2">{product.size}</div>
+              <div className="p-2 text-center border-l-2 w-1/2">
+                {product.quantity}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </section>
     </>
   );
