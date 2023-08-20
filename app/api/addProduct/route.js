@@ -11,7 +11,7 @@ export async function POST(req, res) {
             return NextResponse.json({ error: "productName and category are required" }, { status: 400 });
         }
 
-        const productId = size === 'NA' ? productName.toUpperCase().split(' ').join('') : productName.toUpperCase().split(' ').join('') + size.split(' ')[0];
+        const productId = size === 'NA' ? productName.toUpperCase().split(' ').join('') + weight.split('')[0] : productName.toUpperCase().split(' ').join('') + size.split(' ')[0];
 
         const product = {
             productId,
