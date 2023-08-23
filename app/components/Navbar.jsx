@@ -15,11 +15,11 @@ const Navbar = () => {
                 <Link href="/">Dashboard</Link>
               </li>
               <li className="hover:underline  underline-offset-4 decoration-2 decoration-white py-2 rounded-lg px-2 md:px-5">
-                <Link href="/preview">Preview</Link>
+                <Link href="/preview">Stock Preview</Link>
               </li>
-              <li className="hover:underline underline-offset-4 decoration-2 decoration-white py-2 rounded-lg px-2 md:px-5">
+              {/* <li className="hover:underline underline-offset-4 decoration-2 decoration-white py-2 rounded-lg px-2 md:px-5">
                 <Link href="/update">Update</Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </nav>
