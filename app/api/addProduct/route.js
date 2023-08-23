@@ -24,7 +24,7 @@ export async function POST(req, res) {
         };
         const allProductIds = await getAllProductKeys()
 
-        if (allProductIds.includes(`pdt:${productId}:${category}`)) {
+        if (allProductIds.includes(`pdt:${productId}:${category}:${subCategory.split(' ').join('-')}`)) {
             return new Response("This product is already added", {
                 status: 400,
             });
