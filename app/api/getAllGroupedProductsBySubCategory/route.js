@@ -9,25 +9,16 @@ export const POST = async (request) => {
         if (!subCategory || subCategory.length === 0) {
             return NextResponse.json({ error: 'Invalid Subcategory' }, { status: 400 });
         }
-        const productKey = [];
-        const productValue = [];
-        const allProductKeys = await getAllProductKeys();
-
-        for (const key of allProductKeys) {
-            const product = await db.get(key);
-            const name = product.productName;
-            if (product.subCategory === subCategory) {
-                if (!productKey.includes(name)) {
-                    productKey.push(name)
-                    productValue.push([product])
-                } else {
-                    productValue[productKey.indexOf(name)].push(product)
-                }
-            }
+        const allProductKeys =  await getAllProductKeys()
+        const allSubCategoryKeys = allProductKeys.filter((key) => key.split(':')[3] === subCategory.split(' ').join('-'))
+        const products = []
+        for(const key of allSubCategoryKeys) {
+            const product = await db.get(allSubCategoryKeys[0])
+            products.push(product)
         }
-        return NextResponse.json({ type: 'Products by subcategory', products: productValue.filter((group) => group[0].subCategory === subCategory) });
+        return NextResponse.json({ type: 'Products by subcategory', products });
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ error: 'An error occurred' }, { status: 500 });
+        return NextResponse.json({ error: `An error occurred: ${error}` }, { status: 500 });
     }
 };
