@@ -9,12 +9,18 @@ export const POST = async (request) => {
         if (!subCategory || subCategory.length === 0) {
             return NextResponse.json({ error: 'Invalid Subcategory' }, { status: 400 });
         }
-        const allProductKeys =  await getAllProductKeys()
+        const allProductKeys = await getAllProductKeys()
         const allSubCategoryKeys = allProductKeys.filter((key) => key.split(':')[3] === subCategory.split(' ').join('-'))
         const products = []
-        for(const key of allSubCategoryKeys) {
-            const product = await db.get(allSubCategoryKeys[0])
-            products.push(product)
+        const visited = []
+        for (const key of allSubCategoryKeys) {
+            const product = await db.get(key)
+            if (!visited.includes(product.productName)) {
+                products.push([product])
+                visited.push(product.productName)
+            } else {
+                products[visited.indexOf(product.productName)].push(product)
+            }
         }
         return NextResponse.json({ type: 'Products by subcategory', products });
     } catch (error) {
