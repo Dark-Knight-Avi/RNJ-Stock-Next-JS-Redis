@@ -63,6 +63,22 @@ function UpdateSidebar() {
             Add Subcategory <RiArrowRightLine />
           </Link>
         </div>
+        <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
+          <Link
+            href="/update/deleteCategory"
+            className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
+          >
+            Delete Category <RiArrowRightLine />
+          </Link>
+        </div>
+        <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
+          <Link
+            href="/update/deleteSubCategory"
+            className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
+          >
+            Delete Subcategory <RiArrowRightLine />
+          </Link>
+        </div>
         
       </div>
     </div>
