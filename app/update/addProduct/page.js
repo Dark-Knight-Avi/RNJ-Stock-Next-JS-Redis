@@ -5,9 +5,8 @@ import { RiArrowRightLine } from "react-icons/ri";
 import { Loader } from "rsuite";
 
 const Page = () => {
-  const [subCat, setSubCat] = useState('');
-  const [subCategory, setSubCategory] = useState('');
   const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
   const [categories, setCategories] = useState(null);
   const [subcategories, setSubCategories] = useState([]);
   const [product, setProduct] = useState({
@@ -25,46 +24,50 @@ const Page = () => {
         const response = await axios.get('/api/getAllCategories');
         setCategories(response.data.data);
         setCategory(response.data.data[0].category);
-        setSubCat(response.data.data[0].subCategory.split(', ')[0]);
-        console.log('set')
+        setSubCategory(response.data.data[0].subCategory.split(', ')[0]);
+        // console.log('set')
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
 
     fetchData();
+    console.log('useEffect-1')
   }, []);
 
   useEffect(() => {
     const scats = categories ? categories.find((cat) => cat.category === category).subCategory.split(', ') : [];
     setSubCategories(scats);
-  }, [categories, category]);
+    setProduct({ ...product, category, subCategory })
+    console.log('useEffect-2')
+  }, [categories, category, subCategory]);
 
   const addProduct = async () => {
     try {
-      // const response = await axios.post('/api/addProduct', {
-      //   product,
-      // });
+      const response = await axios.post('/api/addProduct', {
+        ...product,
+        size: product.size === 0 ? 'NA' : `${product.size} inch`,
+        weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
+      });
 
-      // if (response.status === 200) {
-      //   setCategory('');
-      //   setSubCat('');
-      //   setProduct({
-      //     productName: '',
-      //     category: '',
-      //     subCategory: '',
-      //     size: 0,
-      //     weight: 0,
-      //     quantity: 0,
-      //   });
-      // } else {
-      //   throw new Error('Bad request');
-      // }
-      console.log(product);
+      if (response.status === 200) {
+        setProduct({
+          productName: product.productName,
+          category,
+          subCategory,
+          size: Number(product.size) + 1,
+          weight: 0,
+          quantity: 0,
+        });
+      } else {
+        throw new Error('Bad request');
+      }
+      // console.log(product);
     } catch (error) {
       console.log("An error occurred:", error.message);
     }
   };
+
 
   if (!categories) {
     return <div className="w-full"><Loader /></div>;
@@ -95,14 +98,8 @@ const Page = () => {
             <select
               id="subcategories"
               className="bg-slate-900 border-b-2 mr-0 md:mr-5 md:text-xl text-lg placeholder:md:text-xl placeholder:text-sm py-2 text-white outline-none flex-1"
-              value={subCat}
-              onChange={(e) => {
-                console.log('SubCategory', e.target.value)
-                setSubCategory(e.target.value)
-                setSubCategory(e.target.value)
-                console.log('SubCat', subCat)
-                console.log('SubCategory', subCategory)
-              }} // Fix this line
+              value={subCategory}
+              onChange={(e) => setSubCategory(e.target.value)} // Fix this line
             >
               {subcategories.map((scat, index) => (
                 <option key={index} value={scat}>

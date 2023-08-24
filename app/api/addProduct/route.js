@@ -22,13 +22,7 @@ export async function POST(req, res) {
             quantity,
             weight
         };
-        const allProductIds = await getAllProductKeys()
-
-        if (allProductIds.includes(`pdt:${productId}:${category}:${subCategory.split(' ').join('-')}`)) {
-            return new Response("This product is already added", {
-                status: 400,
-            });
-        }
+        
 
         // Store the product in Redis
         await db.set(`pdt:${productId}:${category}:${subCategory.split(' ').join('-')}`, JSON.stringify(product));

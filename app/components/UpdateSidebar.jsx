@@ -52,7 +52,7 @@ function UpdateSidebar() {
             href="/update/addProduct"
             className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
           >
-            Add Product <RiArrowRightLine />
+            Add/Update Product <RiArrowRightLine />
           </Link>
         </div>
         <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
@@ -63,14 +63,7 @@ function UpdateSidebar() {
             Add Subcategory <RiArrowRightLine />
           </Link>
         </div>
-        <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
-          <Link
-            href="/update/updateProduct"
-            className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
-          >
-            Update Product <RiArrowRightLine />
-          </Link>
-        </div>
+        
       </div>
     </div>
   );

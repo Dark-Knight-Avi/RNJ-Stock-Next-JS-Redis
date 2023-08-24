@@ -36,7 +36,7 @@ const Page = () => {
       } else {
         throw new Error('Bad request');
       }
-      console.log({category, subCategory})
+      // console.log({category, subCategory})
     } catch (error) {
       console.log("An error occurred:", error.message);
     }
