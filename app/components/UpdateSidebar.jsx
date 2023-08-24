@@ -8,7 +8,7 @@ function UpdateSidebar() {
 
   return (
     <div
-      className={`sidebar bg-gray-800 min-h-[90.5vh] mr-5 ${
+      className={`sidebar bg-gray-800 min-h-[90.5vh] mr-2 md:mr-5 ${
         toggleMenu ? "md:min-w-[300px] min-w-[150px]" : "min-w-[40px]"
       } flex flex-col`}
     >

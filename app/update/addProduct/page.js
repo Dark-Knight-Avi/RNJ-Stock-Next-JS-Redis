@@ -75,9 +75,9 @@ const Page = () => {
 
   return (
     <React.Fragment>
-      <div className="heading p-3 md:p-0 overflow-hidden">
+      <div className="heading p-0 md:p-3 overflow-hidden">
         <div className="md:text-2xl text-lg font-bold mt-5 flex justify-start items-center">
-          Add a new Subcategory <RiArrowRightLine size={20} />
+          Add/Update a new Product <RiArrowRightLine size={20} />
         </div>
         <div className="input mt-5 flex flex-col items-center justify-start">
           <div className="flex flex-col">
