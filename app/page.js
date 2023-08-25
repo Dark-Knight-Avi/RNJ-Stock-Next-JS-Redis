@@ -37,7 +37,7 @@ export default function Home() {
             <div className="text-sm text-center font-bold w-[33%]">Category</div>
             <div className="text-sm text-center font-bold w-[33%]">Size/Weight</div>
           </div>
-          {products.data.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.category} subcategory={product.subCategory} size={product.size} weight={product.weight}/>)}
+          {products.products.filter((product) => product.quantity < 2).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.category} subcategory={product.subCategory} size={product.size} weight={product.weight}/>)}
         </div>
       </section>
     </React.Fragment>
