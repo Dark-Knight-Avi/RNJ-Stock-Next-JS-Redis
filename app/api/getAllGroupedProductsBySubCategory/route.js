@@ -1,4 +1,5 @@
 import { getAllProductKeys } from "@/app/helper/getAllProductKeys";
+import { fetchredis } from "@/app/helper/redis";
 import { db } from "@/app/lib/db";
 import { NextResponse } from 'next/server';
 
@@ -14,7 +15,7 @@ export const POST = async (request) => {
         const products = []
         const visited = []
         for (const key of allSubCategoryKeys) {
-            const product = await db.get(key)
+            const product = await fetchredis('get', key)
             if (!visited.includes(product.productName)) {
                 products.push([product])
                 visited.push(product.productName)

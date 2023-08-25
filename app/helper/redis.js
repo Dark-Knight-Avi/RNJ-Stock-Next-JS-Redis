@@ -12,5 +12,5 @@ export const fetchredis = async (command, ...args) => {
   }
 
   const data = await response.json();
-  return data.result;
+  return JSON.parse(data.result);
 };

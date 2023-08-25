@@ -1,5 +1,4 @@
-import { getAllCategoryKeys } from "@/app/helper/getAllCategoryKeys";
-import { getAllProductKeys } from "@/app/helper/getAllProductKeys";
+import { fetchredis } from "@/app/helper/redis";
 import { db } from "@/app/lib/db";
 import { NextResponse } from 'next/server';
 
@@ -12,7 +11,7 @@ export async function POST(req, res) {
             return NextResponse.json({ error: "category and subcategory is required" }, { status: 400 });
         }
 
-        const currentData = await db.get(`cat:${category}`)
+        const currentData = await fetchredis('get', `cat:${category}`)
         // console.log(currentData)
         const currentSubCategories = currentData.subCategory === '' ? [] : currentData.subCategory.split(', ')
         const subCategoriesToAdd = subCategory.split(', ')
