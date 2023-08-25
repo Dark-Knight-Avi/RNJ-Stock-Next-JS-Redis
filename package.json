@@ -13,7 +13,6 @@
     "@upstash/redis": "^1.22.0",
     "autoprefixer": "10.4.15",
     "axios": "^1.4.0",
-    "debug": "^4.3.4",
     "dotenv": "^16.3.1",
     "next": "13.4.16",
     "next-auth": "^4.23.1",
@@ -22,7 +21,6 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "rsuite": "^5.38.0",
-    "supports-color": "^9.4.0",
     "tailwindcss": "3.3.3"
   }
 }

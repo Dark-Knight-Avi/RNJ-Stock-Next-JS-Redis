@@ -1,10 +1,11 @@
-const upstashRedisRestUrl = process.env.UPSTASH_REDIS_REST_URL;
-const authToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+const redisRestUrl = "https://clear-zebra-43267.upstash.io";
+const redisRestToken = "AakDACQgNTU5YjhlOTEtMDlkYy00NWIzLWJjNmItZjVjMGIxOTk4ZTZjMzhjM2FmOTI4YjQ4NDcwMWJlOWU1YTBmZDkzNGFmZDE=";
 
 export const fetchredis = async (command, ...args) => {
-  const commandUrl = `${upstashRedisRestUrl}/${command}/${args.join("/")}`;
+  const commandUrl = `${redisRestUrl}/${command}/${args.join("/")}`;
   const response = await fetch(commandUrl, {
-    headers: { Authorization: `Bearer ${authToken}` },
+    headers: { Authorization: `Bearer ${redisRestToken}` },
     cache: "no-store",
   });
   if (!response.ok) {
