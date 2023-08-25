@@ -12,4 +12,6 @@ if (!redisRestUrl || !redisRestToken) {
 export const db = new Redis({
     url: redisRestUrl,
     token: redisRestToken,
+    cache: false,
+    cacheMaxSize: 0
 });
