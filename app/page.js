@@ -8,19 +8,25 @@ import ProductCard from "./components/ProductCard";
 
 export default function Home() {
   const [products, setProducts] = useState(null)
+  const [error, setError] = useState(null); // Add state to handle errors
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/getAllProducts');
-        setProducts(response.data);
+        setProducts(response.data.products);
       } catch (error) {
         console.error('Error fetching products:', error);
+        setError('An error occurred while fetching products.');
       }
     };
 
     fetchData();
   }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!products) {
     return <div className="mt-5 flex h-full justify-center items-center">
