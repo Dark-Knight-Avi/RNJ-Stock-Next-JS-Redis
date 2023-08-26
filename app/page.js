@@ -13,7 +13,9 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/getAllProducts');
+        const response = await axios.get('/api/getAllProducts', {
+          timeout: 30000
+        });
         setProducts(response.data.products);
       } catch (error) {
         console.error('Error fetching products:', error);
