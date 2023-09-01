@@ -65,7 +65,7 @@ export default function Home() {
             <div className="text-sm text-center font-bold w-[33%]">Subcategory</div>
             <div className="text-sm text-center font-bold w-[33%]">Size/Weight</div>
           </div>
-          {products.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.subCategory} subcategory={product.subCategory} size={product.size} weight={product.weight} />)}
+          {products.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.category} subcategory={product.subCategory} size={product.size} weight={product.weight} />)}
         </div>
       </section>
       <section className="flex w-full justify-end items-center mt-3 px-3">
