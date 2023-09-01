@@ -62,10 +62,10 @@ export default function Home() {
         <div className="emptyProducts flex flex-col justify-start items-center w-full h-full border-t border-white">
           <div className='w-full border border-white h-[40px] flex justify-between items-center px-1'>
             <div className="text-sm text-center font-bold w-[33%]">Product Name</div>
-            <div className="text-sm text-center font-bold w-[33%]">Category</div>
+            <div className="text-sm text-center font-bold w-[33%]">Subcategory</div>
             <div className="text-sm text-center font-bold w-[33%]">Size/Weight</div>
           </div>
-          {products.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.category} subcategory={product.subCategory} size={product.size} weight={product.weight} />)}
+          {products.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.subCategory} subcategory={product.subCategory} size={product.size} weight={product.weight} />)}
         </div>
       </section>
       <section className="flex w-full justify-end items-center mt-3 px-3">
