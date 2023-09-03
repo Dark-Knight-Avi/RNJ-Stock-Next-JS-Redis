@@ -11,18 +11,18 @@ export async function POST(req, res) {
             return NextResponse.json({ error: "productName and category are required" }, { status: 400 });
         }
 
-        const productId = size === 'NA' ? productName.toUpperCase().split(' ').join('') + weight.split('')[0] + subCategory.toUpperCase().split(' ').join('') : productName.toUpperCase().split(' ').join('') + size.split(' ')[0] + subCategory.toUpperCase().split(' ').join('');
-
+        const productId = size === 'NA' ? productName.toUpperCase().split(' ').join('') + weight.split(' ')[0] + subCategory.toUpperCase().split(' ').join('') : productName.toUpperCase().split(' ').join('') + size.split(' ')[0] + subCategory.toUpperCase().split(' ').join('');
+        const productSize = weight !== 'NA' ? 'NA' : size
         const product = {
             productId,
             productName,
             category,
             subCategory,
-            size,
+            size: productSize,
             quantity,
             weight
         };
-        
+
 
         // Store the product in Redis
         await db.set(`pdt:${productId}:${category}:${subCategory.split(' ').join('-')}`, JSON.stringify(product));
