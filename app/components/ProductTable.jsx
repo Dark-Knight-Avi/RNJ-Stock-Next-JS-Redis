@@ -7,12 +7,12 @@ const ProductTable = ({ products }) => {
         <div className="text-2xl font-bold m-3">{products[0].productName}</div>
         <div className="border-t-2 w-full flex flex-col md:flex-row justify-between items-center">
           <div className="col w-full text-center">
-            <div className="p-2">Size</div>
+            <div className="p-2">Size/Weight</div>
             <div className="p-2 border-t">Quantity</div>
           </div>
           {products.map((product) => (
             <div className="col w-full border-l-2 text-center">
-              <div className="p-2">{product.size}</div>
+              <div className="p-2">{product.size === 0 ? product.weight : product.size}</div>
               <div className="p-2 border-t">{product.quantity}</div>
             </div>
           ))}
