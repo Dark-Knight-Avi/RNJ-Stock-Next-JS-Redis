@@ -13,7 +13,7 @@ const ProductTable = ({ products }) => {
           {products.map((product) => (
             <div className="col w-full border-l-2 text-center">
               <div className="p-2">
-                {product.size === "NA" || product.size === "0 inch" || product.weight !== 'NA'
+                {product.weight !== 'NA'
                   ? product.weight
                   : product.size}
               </div>
