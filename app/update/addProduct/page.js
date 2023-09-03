@@ -55,14 +55,14 @@ const Page = () => {
           productName: product.productName,
           category,
           subCategory,
-          size: Number(product.size) + 1,
+          size: 0,
           weight: 0,
           quantity: 0,
         });
       } else {
         throw new Error('Bad request');
       }
-      // console.log(product);
+      console.log(product);
     } catch (error) {
       console.log("An error occurred:", error.message);
     }
