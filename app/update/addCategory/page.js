@@ -2,24 +2,41 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
-  const [category, setCategory] = useState('')
-
+  const [category, setCategory] = useState('');
 
   const addCategory = async () => {
     try {
       const response = await axios.post('/api/addCategory', {
         category
-      })
-      if (response.status === 400) {
-        throw new Error('Bad request')
+      });
+
+      if (response.status === 200) {
+        // Category added successfully
+        toast.success('Category Added Successfully!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+          className: 'custom-toast-success', // Apply custom success toast style class
+        });
+
+        // Clear the input field
+        setCategory('');
+      } else {
+        // Handle any other error cases here
+        toast.error('An error occurred while adding the category.', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+          className: 'custom-toast-error', // Apply custom error toast style class
+        });
       }
-      setCategory('')
     } catch (error) {
-      console.log("An error occurred:", error.message)
+      console.log("An error occurred:", error.message);
     }
-  }
+  };
+
   return (
     <React.Fragment>
       <div className="heading p-3 md:p-0 overflow-hidden">
@@ -42,6 +59,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </React.Fragment>
   );
 };

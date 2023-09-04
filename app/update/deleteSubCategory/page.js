@@ -1,9 +1,10 @@
 'use client'
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { Loader } from "rsuite";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
     const [subCategory, setSubCategory] = useState('');
@@ -12,7 +13,6 @@ const Page = () => {
     const [subcategories, setSubCategories] = useState([]);
     const [isDeleted, setIsDeleted] = useState(false);
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -20,7 +20,6 @@ const Page = () => {
                 setCategories(response.data.data);
                 setCategory(response.data.data[0].category);
                 setSubCategory(response.data.data[0].subCategory.split(', ')[0]);
-                // console.log('set')
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -41,13 +40,23 @@ const Page = () => {
                 category,
                 subCategory
             });
-            setIsDeleted(true);
+
             if (response.status === 200) {
+                // Subcategory deleted successfully
+                toast.success('Subcategory Deleted Successfully!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                });
+
+                setIsDeleted(true);
                 setSubCategory('');
             } else {
-                throw new Error('Bad request');
+                // Handle any other error cases here
+                toast.error('An error occurred while deleting the subcategory.', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                });
             }
-            // console.log({category, subCategory})
         } catch (error) {
             console.log("An error occurred:", error.message);
         }
@@ -83,7 +92,7 @@ const Page = () => {
                             id="subcategories"
                             className="bg-slate-900 border-b-2 mr-0 md:mr-5 md:text-xl text-lg placeholder:md:text-xl placeholder:text-sm py-2 text-white outline-none flex-1"
                             value={subCategory}
-                            onChange={(e) => setSubCategory(e.target.value)} // Fix this line
+                            onChange={(e) => setSubCategory(e.target.value)}
                         >
                             {subcategories.map((scat, index) => (
                                 <option key={index} value={scat}>
@@ -100,6 +109,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </React.Fragment>
     );
 };

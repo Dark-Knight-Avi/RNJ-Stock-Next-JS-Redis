@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { Loader } from "rsuite";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
   const [category, setCategory] = useState('');
@@ -64,11 +66,19 @@ const Page = () => {
           parameter: parameters[0].parameter,
           quantity: 0,
         });
+        toast.success('Product Added Successfully!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       } else {
         throw new Error('Bad request');
       }
     } catch (error) {
       console.log("An error occurred:", error.message);
+      toast.error('An error occurred while adding the product.', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     }
   };
 
@@ -162,6 +172,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-center" />
     </React.Fragment>
   );
 };

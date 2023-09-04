@@ -1,9 +1,11 @@
-"use client"
+'use client'
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { Loader } from "rsuite";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
     const [category, setCategory] = useState('');
@@ -31,12 +33,22 @@ const Page = () => {
                 data: { category } // Send the category as part of the request data
             });
 
-            if (response.status === 400) {
-                throw new Error('Bad request');
-            }
+            if (response.status === 200) {
+                // Category deleted successfully
+                toast.success('Category Deleted Successfully!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                });
 
-            setIsDeleted(true);
-            setCategory(categories[0].category); // Fix: Use categories directly without .data
+                setIsDeleted(true);
+                setCategory(categories[0].category); // Fix: Use categories directly without .data
+            } else {
+                // Handle any other error cases here
+                toast.error('An error occurred while deleting the category.', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000,
+                });
+            }
         } catch (error) {
             console.log("An error occurred:", error.message);
         }
@@ -73,6 +85,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </React.Fragment>
     );
 };

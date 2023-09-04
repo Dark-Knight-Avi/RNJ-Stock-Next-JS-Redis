@@ -2,24 +2,38 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
-  const [parameter, setParameter] = useState('')
-
+  const [parameter, setParameter] = useState('');
 
   const addParameter = async () => {
     try {
       const response = await axios.post('/api/addCustomParameter', {
         parameter
-      })
-      if (response.status === 400) {
-        throw new Error('Bad request')
+      });
+
+      if (response.status === 200) {
+        // Parameter added successfully
+        toast.success('Parameter Added Successfully!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
+
+        setParameter('');
+      } else {
+        // Handle any other error cases here
+        toast.error('An error occurred while adding the parameter.', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       }
-      setParameter('')
     } catch (error) {
-      console.log("An error occurred:", error.message)
+      console.log("An error occurred:", error.message);
     }
-  }
+  };
+
   return (
     <React.Fragment>
       <div className="heading p-3 md:p-0 overflow-hidden">
@@ -36,12 +50,16 @@ const Page = () => {
               value={parameter}
               onChange={(e) => setParameter(e.target.value)}
             />
-            <button onClick={addParameter} className="border mt-3 px-3 py-2 text-center hover:bg-slate-700 active:bg-slate-800">
+            <button
+              onClick={addParameter}
+              className="border mt-3 px-3 py-2 text-center hover:bg-slate-700 active:bg-slate-800"
+            >
               Add
             </button>
           </div>
         </div>
       </div>
+      <ToastContainer position="top-center" />
     </React.Fragment>
   );
 };

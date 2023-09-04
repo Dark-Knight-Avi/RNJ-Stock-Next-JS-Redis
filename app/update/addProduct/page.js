@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { Loader } from "rsuite";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
   const [category, setCategory] = useState('');
@@ -48,18 +50,17 @@ const Page = () => {
 
   const addProduct = async () => {
     try {
-      // const response = await axios.post('/api/addProduct', {
-      //   ...product,
-      //   size: product.size === 0 ? 'NA' : `${product.size} inch`,
-      //   weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
-      // });
-      console.log({
+      const response = await axios.post('/api/addProduct', {
         ...product,
         size: product.size === 0 ? 'NA' : `${product.size} inch`,
         weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
-      })
-      let status = 200
-      if (status === 200) {
+      });
+      // console.log({
+      //   ...product,
+      //   size: product.size === 0 ? 'NA' : `${product.size} inch`,
+      //   weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
+      // })
+      if (response.status === 200) {
         setProduct({
           productName: product.productName,
           category,
@@ -68,12 +69,20 @@ const Page = () => {
           weight: 0,
           quantity: 0,
         });
+        toast.success('Product Added Successfully!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000,
+        });
       } else {
         throw new Error('Bad request');
       }
       // console.log(product);
     } catch (error) {
       console.log("An error occurred:", error.message);
+      toast.error('An error occurred while adding the product.', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     }
   };
 
@@ -185,6 +194,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-center" />
     </React.Fragment>
   );
 };

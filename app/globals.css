@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Example toast style classes */
+.custom-toast-success {
+    background-color: #00a859; /* Match your code's background color */
+    color: #fff; /* Match your code's text color */
+    font-weight: bold;
+  }
+  
+  .custom-toast-error {
+    background-color: #ff3333; /* Match your code's error color */
+    color: #fff; /* Match your code's text color */
+    font-weight: bold;
+  }
+  
