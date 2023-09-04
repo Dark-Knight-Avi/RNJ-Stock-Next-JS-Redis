@@ -10,7 +10,7 @@ const Page = () => {
   const [subCategory, setSubCategory] = useState('');
   const [subcategories, setSubCategories] = useState([]);
   const [parameter, setParameter] = useState('')
-  const [parameters, setParameters] = useState(null)
+  const [parameters, setParameters] = useState([])
   const [product, setProduct] = useState({
     productName: '',
     category: '',
@@ -36,41 +36,44 @@ const Page = () => {
     };
 
     fetchData();
-    // console.log('useEffect-1')
+    // console.log('useEffect-1', parameter)
   }, []);
 
   useEffect(() => {
     const scats = categories ? categories.find((cat) => cat.category === category).subCategory.split(', ') : [];
     setSubCategories(scats);
-    setProduct({ ...product, category, subCategory })
-    // console.log('useEffect-2')
-  }, [categories, category, subCategory]);
+    if (scats.length > 1) {
+      setProduct({ ...product, category, subCategory, parameter })
+    } else {
+      setProduct({ ...product, category, subCategory: scats[0], parameter })
+    }
+    // console.log('useEffect-2', parameter)
+  }, [categories, category, parameter]);
 
   const addProduct = async () => {
     try {
+      // console.log('add', product);
       const response = await axios.post('/api/addProductWithCustomParameter', {
         ...product
       });
-
       if (response.status === 200) {
         setProduct({
           productName: product.productName,
           category,
           subCategory,
-          parameter: parameters[0],
+          parameter: parameters[0].parameter,
           quantity: 0,
         });
       } else {
         throw new Error('Bad request');
       }
-      // console.log(product);
     } catch (error) {
       console.log("An error occurred:", error.message);
     }
   };
 
 
-  if (!categories || !parameters) {
+  if (!categories || parameters.length === 0) {
     return <div className="w-full"><Loader /></div>;
   }
 

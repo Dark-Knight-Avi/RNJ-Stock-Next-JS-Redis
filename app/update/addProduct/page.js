@@ -38,19 +38,28 @@ const Page = () => {
   useEffect(() => {
     const scats = categories ? categories.find((cat) => cat.category === category).subCategory.split(', ') : [];
     setSubCategories(scats);
-    setProduct({ ...product, category, subCategory })
+    if (scats.length > 1) {
+      setProduct({ ...product, category, subCategory })
+    } else {
+      setProduct({ ...product, category, subCategory: scats[0] })
+    }
     // console.log('useEffect-2')
   }, [categories, category, subCategory]);
 
   const addProduct = async () => {
     try {
-      const response = await axios.post('/api/addProduct', {
+      // const response = await axios.post('/api/addProduct', {
+      //   ...product,
+      //   size: product.size === 0 ? 'NA' : `${product.size} inch`,
+      //   weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
+      // });
+      console.log({
         ...product,
         size: product.size === 0 ? 'NA' : `${product.size} inch`,
         weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
-      });
-
-      if (response.status === 200) {
+      })
+      let status = 200
+      if (status === 200) {
         setProduct({
           productName: product.productName,
           category,
