@@ -21,7 +21,7 @@ const Page = ({ params }) => {
     };
 
     fetchData();
-    console.log(productList)
+    // console.log(productList)
   }, []);
 
   if (!productList) {
@@ -32,7 +32,7 @@ const Page = ({ params }) => {
     <React.Fragment>
       <section className='flex flex-col w-full p-5'>
         <div className="text-2xl font-bold text-center w-full mb-5">{subCategory.split('-').join(' ').toUpperCase()}</div>
-        {productList.products.map((group, index) => <ProductTable key={index} products={group} />)}
+        {productList.products.map((group, index) => <ProductTable key={index} products={group} isCustom={productList.isCustom} />)}
 
       </section>
     </React.Fragment>

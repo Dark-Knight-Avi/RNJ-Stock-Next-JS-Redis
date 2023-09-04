@@ -4,22 +4,20 @@ import { NextResponse } from 'next/server';
 export async function POST(req, res) {
     try {
 
-        const { productName, category, subCategory = 'NA', size = 'NA', quantity = 0, weight = 'NA' } = await req.json();
+        const { productName, category, subCategory = 'NA', parameter, quantity = 0 } = await req.json();
 
         if (!productName || !category) {
             return NextResponse.json({ error: "productName and category are required" }, { status: 400 });
         }
 
-        const productId = size === 'NA' ? productName.toUpperCase().split(' ').join('') + weight.split(' ')[0] + subCategory.toUpperCase().split(' ').join('') : productName.toUpperCase().split(' ').join('') + size.split(' ')[0] + subCategory.toUpperCase().split(' ').join('');
-        const productSize = weight !== 'NA' ? 'NA' : size
+        const productId = productName.toUpperCase().split(' ').join('') + parameter.toUpperCase().split(' ').join('') + subCategory.toUpperCase().split(' ').join('')
         const product = {
             productId,
             productName,
             category,
             subCategory,
-            size: productSize,
-            quantity,
-            weight
+            parameter,
+            quantity
         };
 
 

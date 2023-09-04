@@ -6,25 +6,29 @@ import { Loader } from "rsuite";
 
 const Page = () => {
   const [category, setCategory] = useState('');
-  const [subCategory, setSubCategory] = useState('');
   const [categories, setCategories] = useState(null);
+  const [subCategory, setSubCategory] = useState('');
   const [subcategories, setSubCategories] = useState([]);
+  const [parameter, setParameter] = useState('')
+  const [parameters, setParameters] = useState(null)
   const [product, setProduct] = useState({
     productName: '',
     category: '',
     subCategory: '',
-    size: 0,
-    weight: 0,
-    quantity: 0,
+    parameter: '',
+    quantity: 0
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/getAllCategories');
-        setCategories(response.data.data);
-        setCategory(response.data.data[0].category);
-        setSubCategory(response.data.data[0].subCategory.split(', ')[0]);
+        const response1 = await axios.get('/api/getAllCategories');
+        const response2 = await axios.get('/api/getAllCustomParameters');
+        setCategories(response1.data.data);
+        setParameters(response2.data.parameters)
+        setCategory(response1.data.data[0].category);
+        setParameter(response2.data.parameters[0].parameter);
+        setSubCategory(response1.data.data[0].subCategory.split(', ')[0]);
         // console.log('set')
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -44,10 +48,8 @@ const Page = () => {
 
   const addProduct = async () => {
     try {
-      const response = await axios.post('/api/addProduct', {
-        ...product,
-        size: product.size === 0 ? 'NA' : `${product.size} inch`,
-        weight: product.weight === 0 || product.size > 0 ? 'NA' : `${product.weight} g`,
+      const response = await axios.post('/api/addProductWithCustomParameter', {
+        ...product
       });
 
       if (response.status === 200) {
@@ -55,8 +57,7 @@ const Page = () => {
           productName: product.productName,
           category,
           subCategory,
-          size: 0,
-          weight: 0,
+          parameter: parameters[0],
           quantity: 0,
         });
       } else {
@@ -69,7 +70,7 @@ const Page = () => {
   };
 
 
-  if (!categories) {
+  if (!categories || !parameters) {
     return <div className="w-full"><Loader /></div>;
   }
 
@@ -120,37 +121,19 @@ const Page = () => {
                 })
               }
             />
-            <label htmlFor="size" className="md:text-xl text-lg mt-3">Size:</label>
-            <input
-              type="number"
-              name="size"
-              className="bg-slate-900 border-b-2 mr-0 md:mr-5 md:text-xl text-lg placeholder:md:text-xl placeholder:text-sm py-2 text-white outline-none flex-1 mt-1"
-              placeholder="Enter product size..."
-              value={product.size}
-              onChange={(e) =>
-                setProduct({
-                  ...product,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              min={0}
-            />
-            <label htmlFor="weight" className="md:text-xl text-lg mt-3">Weight:</label>
-
-            <input
-              type="number"
-              name="weight"
-              className="bg-slate-900 border-b-2 mr-0 md:mr-5 md:text-xl text-lg placeholder:md:text-xl placeholder:text-sm py-2 text-white outline-none flex-1 mt-1"
-              placeholder="Enter product weight..."
-              value={product.weight}
-              onChange={(e) =>
-                setProduct({
-                  ...product,
-                  [e.target.name]: e.target.value,
-                })
-              }
-              min={0}
-            />
+            <label htmlFor="subcategories" className="md:text-xl text-lg mt-3">Parameter:</label>
+            <select
+              id="subcategories"
+              className="bg-slate-900 border-b-2 mr-0 md:mr-5 md:text-xl text-lg placeholder:md:text-xl placeholder:text-sm py-2 text-white outline-none flex-1"
+              value={parameter}
+              onChange={(e) => setParameter(e.target.value)} // Fix this line
+            >
+              {parameters.map((param, index) => (
+                <option key={index} value={param.parameter}>
+                  {param.parameter}
+                </option>
+              ))}
+            </select>
             <label htmlFor="quantity" className="md:text-xl text-lg mt-3">Quantity:</label>
 
             <input

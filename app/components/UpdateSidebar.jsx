@@ -57,10 +57,26 @@ function UpdateSidebar() {
         </div>
         <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
           <Link
+            href="/update/addProductWithCustomParameter"
+            className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
+          >
+            Add/Update Product {'('}Custom{')'} <RiArrowRightLine />
+          </Link>
+        </div>
+        <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
+          <Link
             href="/update/addSubCategory"
             className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
           >
             Add Subcategory <RiArrowRightLine />
+          </Link>
+        </div>
+        <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
+          <Link
+            href="/update/addCustomParameter"
+            className=" focus:text-white toggle text-gray-500 w-[100%] my-2 py-2 flex justify-between items-center "
+          >
+            Add Custom Parameter <RiArrowRightLine />
           </Link>
         </div>
         <div className="flex flex-col  w-[100%] justify-center items-center border-b-2 border-gray-500 px-5">
