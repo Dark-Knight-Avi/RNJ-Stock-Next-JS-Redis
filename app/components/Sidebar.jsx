@@ -1,28 +1,37 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import Category from "./Category";
 import axios from "axios";
 import Loader from "./Loader";
+import { useQuery } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+
+const fetchSidebarData = async () => {
+  try {
+    const response = await axios.get("/api/getAllCategories");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+};
+
 function Sidebar() {
-  const [toggleMenu, setToggleMenu] = useState(true);
-  const [categories, setCategories] = useState(null);
+  // const [toggleMenu, setToggleMenu] = useState(true);
+  const dispatch = useDispatch();
+  const { toggleMenu } = useSelector((state) => state.sidebarToggleReducer);
+  const sidebarQuery = useQuery({
+    queryKey: ["sidebar"],
+    queryFn: () => fetchSidebarData(),
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/getAllCategories");
-        setCategories(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  if (!categories) {
-    return <div className="w-full"><Loader /></div>;
+  if (sidebarQuery.isLoading) {
+    return (
+      <div className="w-full">
+        <Loader />
+      </div>
+    );
   }
   return (
     <div
@@ -37,7 +46,9 @@ function Sidebar() {
             color="#fff"
             size={27}
             onClick={() => {
-              setToggleMenu(false);
+              dispatch({
+                type: "toggle",
+              });
             }}
           />
         ) : (
@@ -45,7 +56,11 @@ function Sidebar() {
             cursor={"pointer"}
             color="#fff"
             size={27}
-            onClick={() => setToggleMenu(true)}
+            onClick={() => {
+              dispatch({
+                type: "toggle",
+              });
+            }}
           />
         )}
       </div>
@@ -57,7 +72,13 @@ function Sidebar() {
         <div className=" flex justify-center items-center toolbox__sidebar-menus_profile text-white pb-3 border-b-2 w-[100%] font-bold">
           Stocks
         </div>
-        {categories.data.map((category) => <Category key={category.category} categoryName={category.category} subCategories={category.subCategory}/>)}
+        {sidebarQuery.data.data.map((category) => (
+          <Category
+            key={category.category}
+            categoryName={category.category}
+            subCategories={category.subCategory}
+          />
+        ))}
       </div>
     </div>
   );

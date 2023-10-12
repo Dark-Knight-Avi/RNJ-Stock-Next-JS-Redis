@@ -14,7 +14,7 @@ const ProductTable = ({ products, isCustom }) => {
               <div className="p-2 border-t">Quantity</div>
             </div>
             {products.map((product) => (
-              <div className="col w-full border-l-2 text-center">
+              <div key={product.productId} className="col w-full border-l-2 text-center">
                 <div className="p-2">
                   {product.weight !== "NA" ? product.weight : product.size}
                 </div>

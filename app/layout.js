@@ -1,4 +1,7 @@
-import axios from 'axios'
+'use client'
+
+import QueryProvider from './Query/queryProvider'
+import { Providers } from './Redux/reduxProvider'
 import Navbar from './components/Navbar'
 import './globals.css'
 import { Inter } from 'next/font/google'
@@ -16,8 +19,12 @@ export default function RootLayout({ products, children }) {
     <html lang="en">
       <body className={inter.className}>
         <section className="bg-slate-900 text-white min-h-screen">
-          <Navbar />
-          {children}
+          <Providers>
+            <QueryProvider>
+              <Navbar />
+              {children}
+            </QueryProvider>
+          </Providers>
         </section>
       </body>
     </html>

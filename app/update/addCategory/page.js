@@ -1,13 +1,14 @@
 'use client'
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { RiArrowRightLine } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
-  const [category, setCategory] = useState('');
-
+  const dispatch = useDispatch()
+  const { category } = useSelector(state => state.addCategoryReducer)
   const addCategory = async () => {
     try {
       const response = await axios.post('/api/addCategory', {
@@ -23,7 +24,12 @@ const Page = () => {
         });
 
         // Clear the input field
-        setCategory('');
+        dispatch({
+          type: 'setCategory',
+          payload: {
+            category: ''
+          }
+        })
       } else {
         // Handle any other error cases here
         toast.error('An error occurred while adding the category.', {
@@ -51,7 +57,12 @@ const Page = () => {
               className="bg-slate-900 border-b-2 mr-0 md:mr-5 md:text-xl text-lg placeholder:md:text-xl placeholder:text-sm py-2 text-white outline-none flex-1"
               placeholder="Enter a new category..."
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => dispatch({
+                type: 'setCategory',
+                payload: {
+                  category: e.target.value
+                }
+              })}
             />
             <button onClick={addCategory} className="border mt-3 px-3 py-2 text-center hover:bg-slate-700 active:bg-slate-800">
               Add

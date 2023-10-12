@@ -2,55 +2,62 @@
 
 
 import axios from "axios"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import Loader from "./components/Loader";
 import ProductCard from "./components/ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+const fetchPageData = async (page) => {
+  try {
+    const response = await axios.post('/api/getAllProducts', {
+      page
+    })
+    return response.data
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
 
 export default function Home() {
-  const [products, setProducts] = useState(null)
-  const [error, setError] = useState(null); // Add state to handle errors
-  const [page, setPage] = useState(1)
+  const dispatch = useDispatch()
+  const { page } = useSelector(state => state.pageNavigateReducer)
+  const queryClient = useQueryClient()
+  const productsQuery = useQuery({
+    queryKey: ['emptyProducts', page],
+    queryFn: () => fetchPageData(page)
+  })
   const nextPage = () => {
-    setProducts(null)
-    if (products.length !== 0) {
-      setPage(page + 1)
+    if (productsQuery.data.products.length !== 0) {
+      dispatch({
+        type: "nextPage"
+      })
+      queryClient.invalidateQueries(['emptyProducts'])
     }
   }
   const previousPage = () => {
-    setProducts(null)
-    setPage(page === 1 ? 1 : page - 1)
+    dispatch({
+      type: "previousPagew"
+    })
+    queryClient.invalidateQueries(['emptyProducts'])
   }
   const goToPage1 = () => {
-    setProducts(null)
-    setPage(1)
+    dispatch({
+      type: "goToPage1"
+    })
+    queryClient.invalidateQueries(['emptyProducts'])
   }
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post('/api/getAllProducts', {
-          page
-        });
-        setProducts(response.data.products);
 
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setError('An error occurred while fetching products.');
-      }
-    };
-
-    fetchData();
-  }, [page]);
-
-  if (error) {
+  if (productsQuery.isError) {
     return <React.Fragment>
-      Error: {error}
+      Error: {productsQuery.error}
       <section className="flex w-full justify-end items-center mt-3 px-3">
         <button onClick={previousPage} className="px-3 text-center py-2 border hover:bg-slate-700 active:bg-slate-800 mr-2">Previous Page</button>
       </section>
     </React.Fragment>;
   }
 
-  if (!products) {
+  if (productsQuery.isLoading) {
     return <div className="mt-5 flex h-full justify-center items-center">
       <Loader />
     </div>
@@ -65,7 +72,7 @@ export default function Home() {
             <div className="text-sm text-center font-bold w-[33%]">Subcategory</div>
             <div className="text-sm text-center font-bold w-[33%]">Size/Weight</div>
           </div>
-          {products.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.category} subcategory={product.subCategory} size={product.size} weight={product.weight} />)}
+          {productsQuery.data.products.filter((product) => product.quantity === 0).map((product) => <ProductCard key={product.productId} productId={product.productId} productName={product.productName} category={product.category} subcategory={product.subCategory} size={product.size} weight={product.weight} />)}
         </div>
       </section>
       <section className="flex w-full justify-end items-center mt-3 px-3">

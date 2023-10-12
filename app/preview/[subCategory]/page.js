@@ -2,29 +2,27 @@
 import Loader from '@/app/components/Loader';
 import ProductTable from '@/app/components/ProductTable';
 import { toPascalCase } from '@/app/helper/toPascalCase';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
+const fetchSubCategoryData = async (subCategory) => {
+  try {
+    const response = await axios.post('/api/getAllGroupedProductsBySubCategory', {
+      subCategory: toPascalCase(subCategory)
+    });
+    return response.data
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
 const Page = ({ params }) => {
-  const [productList, setProductList] = useState(null)
   const { subCategory } = params
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post('/api/getAllGroupedProductsBySubCategory', {
-          subCategory: toPascalCase(subCategory)
-        });
-        setProductList(response.data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
+  const subCategoryQuery = useQuery({
+    queryKey: ["subCategoryTables", subCategory],
+    queryFn: () => fetchSubCategoryData(subCategory)
+  })
 
-    fetchData();
-    // console.log(productList)
-  }, []);
-
-  if (!productList) {
+  if (subCategoryQuery.isLoading) {
     return <div className="w-full"><Loader /></div>;
   }
 
@@ -32,7 +30,7 @@ const Page = ({ params }) => {
     <React.Fragment>
       <section className='flex flex-col w-full p-5'>
         <div className="text-2xl font-bold text-center w-full mb-5">{subCategory.split('-').join(' ').toUpperCase()}</div>
-        {productList.products.map((group, index) => <ProductTable key={index} products={group} isCustom={productList.isCustom} />)}
+        {subCategoryQuery.data.products.map((group, index) => <ProductTable key={index} products={group} isCustom={subCategoryQuery.data.isCustom} />)}
 
       </section>
     </React.Fragment>
