@@ -1,5 +1,3 @@
-'use client'
-
 import QueryProvider from './Query/queryProvider'
 import { Providers } from './Redux/reduxProvider'
 import Navbar from './components/Navbar'
