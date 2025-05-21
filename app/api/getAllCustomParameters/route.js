@@ -6,7 +6,7 @@ export async function GET(request) {
 
     const allParams = await fetchfromredis('get', 'custom-parameters')
 
-    const allParamsArr = allParams.split(', ')
+    const allParamsArr = allParams?.split(', ')
     for (const param of allParamsArr) {
         allParameters.push({ parameter: param })
     }
