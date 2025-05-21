@@ -5,8 +5,10 @@ export async function GET(request) {
     const allParameters = []
 
     const allParams = await fetchfromredis('get', 'custom-parameters')
-
-    const allParamsArr = allParams?.split(', ')
+    if (!allParams) {
+        return NextResponse.json({ error: 'No custom parameters found.' });
+    }
+    const allParamsArr = allParams.split(', ')
     for (const param of allParamsArr) {
         allParameters.push({ parameter: param })
     }
