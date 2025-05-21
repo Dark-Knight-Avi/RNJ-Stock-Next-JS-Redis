@@ -5,12 +5,17 @@ import { NextResponse } from 'next/server';
 export const POST = async (request) => {
     try {
         let isCustom = false
-        const { subCategory } = await request.json();
+        let { subCategory } = await request.json();
+        subCategory = subCategory.toLowerCase()
         if (!subCategory || subCategory.length === 0) {
             return NextResponse.json({ error: 'Invalid Subcategory' }, { status: 400 });
         }
         const allProductKeys = await getAllProductKeys()
-        const allSubCategoryKeys = allProductKeys.filter((key) => key.split(':')[3] === subCategory.split(' ').join('-'))
+        const allSubCategoryKeys = allProductKeys.filter((key) => key.toLowerCase().split(':')[3] === subCategory.split(' ').join('-'))
+        console.log("All Subcategory Keys:", allSubCategoryKeys);
+        if (allSubCategoryKeys.length === 0) {
+            return NextResponse.json({ error: 'No products found for this subcategory' }, { status: 404 });
+        }
         const products = []
         const visited = []
         for (const key of allSubCategoryKeys) {

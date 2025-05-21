@@ -30,7 +30,7 @@ const Page = () => {
     }, [isDeleted]);
 
     useEffect(() => {
-        const scats = categories ? categories.find((cat) => cat.category === category).subCategory.split(', ') : [];
+        const scats = categories ? categories.find((cat) => cat.category === category)?.subCategory.split(', ') : [];
         setSubCategories(scats);
     }, [categories, category, subCategory]);
 
@@ -94,7 +94,7 @@ const Page = () => {
                             value={subCategory}
                             onChange={(e) => setSubCategory(e.target.value)}
                         >
-                            {subcategories.map((scat, index) => (
+                            {subcategories?.map((scat, index) => (
                                 <option key={index} value={scat}>
                                     {scat}
                                 </option>

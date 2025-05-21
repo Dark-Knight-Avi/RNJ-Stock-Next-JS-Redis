@@ -38,7 +38,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    const scats = categories ? categories.find((cat) => cat.category === category).subCategory.split(', ') : [];
+    const scats = categories ? categories.find((cat) => cat.category === category)?.subCategory.split(', ') : [];
     setSubCategories(scats);
     if (scats.length > 1) {
       setProduct({ ...product, category, subCategory })

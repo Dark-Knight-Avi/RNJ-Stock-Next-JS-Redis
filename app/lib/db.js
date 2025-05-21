@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 
-const redisRestUrl = "https://clear-zebra-43267.upstash.io";
-const redisRestToken = "AakDACQgNTU5YjhlOTEtMDlkYy00NWIzLWJjNmItZjVjMGIxOTk4ZTZjMzhjM2FmOTI4YjQ4NDcwMWJlOWU1YTBmZDkzNGFmZDE=";
+const redisRestUrl = "https://clever-dassie-11336.upstash.io";
+const redisRestToken = "ASxIAAIjcDEyMzcxNWY2MzJiMDY0MTY0OTI0MGEzY2UxNjJhNjg1MHAxMA";
 
 if (!redisRestUrl || !redisRestToken) {
     throw new Error(
